@@ -27,7 +27,7 @@ const footerHTML = `
                 <h4 class="text-white font-semibold text-sm uppercase tracking-[0.25em] mb-8">Explorar</h4>
                 <ul class="space-y-4 text-base font-medium">
                     <li><a href="index.html" class="hover:text-yellow-400 transition-colors">Inicio</a></li>
-                    <li><a href="mapas.html" class="hover:text-yellow-400 transition-colors">Mapas Climatológicos</a></li>
+                    <li><a href="mapas.html" class="hover:text-yellow-400 transition-colors">Mapa</a></li>
                     <li><a href="configuracion.html" class="hover:text-yellow-400 transition-colors">Configuración</a></li>
                 </ul>
             </div>
