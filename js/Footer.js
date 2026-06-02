@@ -57,8 +57,6 @@ const footerHTML = `
 
         <div class="border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] text-white/20 uppercase tracking-[0.25em]">
             <div class="flex gap-10">
-                <a href="#" class="hover:text-white transition">Privacidad</a>
-                <a href="#" class="hover:text-white transition">Accesibilidad</a>
             </div>
             <p>Parcial 2 - Programación IV - UGB 2026</p>
         </div>

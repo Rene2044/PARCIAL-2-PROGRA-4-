@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyCast | Mapas Climáticos</title>
+    
+    <link rel="icon" type="image/png" href="assets/Cap.png">
+
+    <!-- Tailwind CSS y Fuentes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;600&family=Poppins:wght=300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Librería de Mapas: Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- Estilos Externos -->
+    <link rel="stylesheet" href="js/Estilos.css">
+
+    <style>
+        /* Estilos Globales para consistencia de marca */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Fondo unificado con el ecosistema SkyCast */
+        .weather-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
+        }
+
+        /* Ajustes específicos para el contenedor del mapa */
+        #map {
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+            z-index: 10;
+        }
+
+        /* Estilización de los controles de Leaflet para acoplarlos al tema oscuro/glass */
+        .leaflet-bar {
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+        }
+        .leaflet-bar a {
+            background-color: rgba(30, 41, 59, 0.8) !important;
+            color: white !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+        .leaflet-bar a:hover {
+            background-color: #ff643c !important; /* Detalle naranja SkyCast */
+        }
+    </style>
+</head>
+
+<body class="weather-bg flex flex-col items-center min-h-screen p-0 m-0 w-full overflow-x-hidden font-['Inter'] text-white">
+
+    <!-- Navbar Dinámica -->
+    <header id="navbar-app" class="w-full"></header>
+
+    <!-- Contenedor Principal -->
+    <div class="flex flex-col items-center justify-center gap-8 w-full max-w-6xl mx-auto mt-32 px-6 flex-grow mb-12">
+        
+        <!-- Tarjeta del Mapa con Glassmorphism -->
+        <main class="w-full bg-white/15 backdrop-blur-xl rounded-[32px] shadow-2xl p-6 sm:p-8 border border-white/25 transition-all duration-500">
+            
+            <!-- Encabezado y Selector de Capas -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                <div>
+                    <h1 class="text-3xl font-bold tracking-tight text-white mb-1">Mapas del Clima</h1>
+                    <p class="text-sm opacity-70">Visualiza precipitaciones, nubes y temperaturas en tiempo real</p>
+                </div>
+                
+                <!-- Selector de Capas Estilizado -->
+                <div class="flex gap-2 bg-black/20 backdrop-blur-md p-1.5 rounded-xl border border-white/10 self-start md:self-auto">
+                    <button class="layer-btn px-4 py-2 bg-[#ff643c] text-xs font-semibold rounded-lg transition-all" data-layer="temp">
+                        Temperatura
+                    </button>
+                    <button class="layer-btn px-4 py-2 hover:bg-white/5 text-xs font-semibold rounded-lg opacity-70 hover:opacity-100 transition-all" data-layer="clouds">
+                        Nubes
+                    </button>
+                    <button class="layer-btn px-4 py-2 hover:bg-white/5 text-xs font-semibold rounded-lg opacity-70 hover:opacity-100 transition-all" data-layer="precip">
+                        Lluvia
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenedor del Mapa con marco esmerilado profundo -->
+            <div class="p-2 bg-black/20 backdrop-blur-md rounded-[24px] border border-white/5 shadow-inner">
+                <div id="map"></div>
+            </div>
+
+            <!-- Leyenda Informativa Inferior -->
+            <div class="mt-4 flex flex-wrap items-center justify-between gap-4 text-xs opacity-60 px-2">
+                <p>💡 Tip: Haz clic en cualquier lugar del mapa para ver las coordenadas climáticas actuales.</p>
+                <div class="flex items-center gap-2">
+                    <span>Frío</span>
+                    <div class="w-32 h-2 rounded-full bg-gradient-to-r from-blue-500 via-green-400 via-yellow-300 to-red-500"></div>
+                    <span>Calor</span>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer-app" class="w-full"></footer>
+
+    <!-- Librería de Mapas: Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- Scripts Modulares -->
+    <script type="module" src="js/Navbar.js"></script>
+    <script type="module" src="js/Footer.js"></script>
+    
+    <!-- Script de Inicialización del Mapa -->
+    <script>
+        // Inicializar el mapa centrado
+        const map = L.map('map').setView([40.4167, -3.7037], 5);
+
+        // Capa de mapa base en estilo oscuro
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            
+            maxZoom: 20
+        }).addTo(map);
+
+        // Marcador interactivo
+        const marker = L.marker([40.4167, -3.7037]).addTo(map);
+        marker.bindPopup("<b style='color:#1e293b;'>SkyCast Central</b><br><span style='color:#475569;'>Estación Meteorológica Activa</span>").openPopup();
+
+        // Lógica de alternancia visual para los botones de capas en mapas.html
+        const buttons = document.querySelectorAll('.layer-btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                buttons.forEach(b => b.classList.remove('bg-[#ff643c]', 'opacity-100'));
+                buttons.forEach(b => b.classList.add('hover:bg-white/5', 'opacity-70'));
+                
+                btn.classList.add('bg-[#ff643c]', 'opacity-100');
+                btn.classList.remove('hover:bg-white/5', 'opacity-70');
+                
+                console.log(`[mapas.html] Cambiando a capa climática: ${btn.dataset.layer}`);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkyCast | Inicie Sesión</title>
+    <title>SkyCast | Registrarse</title>
     <link rel="icon" type="image/png" href="assets/Cap.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -29,16 +29,16 @@
             font-family: 'Inter', sans-serif;
         }
 
-        /* Fondo de respaldo por si falla el script externo */
+        /* Fondo unificado con el ecosistema SkyCast */
         .weather-bg {
             background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
         }
 
-        /* Contenedor principal de la tarjeta con Glassmorphism */
+        /* Contenedor de la tarjeta con Glassmorphism (Idéntico al Login) */
         .login-card {
             width: 900px;
             max-width: 90%;
-            height: 550px;
+            height: 600px; /* Altura ideal para albergar los campos cómodamente */
             display: flex;
             background-color: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(16px);
@@ -47,7 +47,7 @@
             border-radius: 32px;
             overflow: hidden;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            margin-top: 100px; /* Ajustado para dar espacio a la Navbar */
+            margin-top: 100px; 
             margin-bottom: 40px;
         }
 
@@ -77,37 +77,37 @@
         .right-panel {
             flex: 1;
             background-color: rgba(255, 255, 255, 0.96);
-            padding: 60px 50px;
+            padding: 40px 50px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
-        /* Estilos de Texto del Panel Derecho */
+        /* Estilos de Texto */
         h1 {
             font-size: 26px;
             font-weight: 600;
             color: #1e293b;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-align: center;
         }
 
         /* Estilos del Formulario */
         .input-group {
-            margin-bottom: 25px;
+            margin-bottom: 16px;
         }
 
         .input-label {
             font-size: 14px;
             font-weight: 600;
             color: #475569;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: block;
         }
 
         .input-field {
             width: 100%;
-            padding: 12px;
+            padding: 11px 12px;
             border: 1px solid #cbd5e1;
             border-radius: 12px;
             font-size: 15px;
@@ -123,27 +123,10 @@
             box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
         }
 
-        .forgot-password {
-            text-align: right;
-            margin-top: -15px;
-            margin-bottom: 30px;
-        }
-
-        .forgot-link {
-            font-size: 13px;
-            color: #0284c7;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .forgot-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Botón Login */
+        /* Botón Registrarse (Naranja principal) */
         .login-button {
             width: 100%;
-            padding: 14px;
+            padding: 13px;
             background-color: #ff643c;
             color: white;
             border: none;
@@ -152,7 +135,8 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            margin-bottom: 15px;
+            margin-top: 10px;
+            margin-bottom: 12px;
         }
 
         .login-button:hover {
@@ -165,18 +149,27 @@
             transform: translateY(0);
         }
 
-        /* Botón Variante (Registrarse) */
+        /* Botón Variante (Volver al Login) */
         .login-button-alt {
             background-color: transparent;
             border: 2px solid #ff643c;
             color: #ff643c;
+            width: 100%;
+            padding: 13px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            display: block;
+            text-decoration: none;
         }
 
         .login-button-alt:hover {
             background-color: rgba(255, 100, 60, 0.05);
             color: #ff4c24;
             border-color: #ff4c24;
-            box-shadow: none;
         }
     </style>
 </head>
@@ -195,27 +188,32 @@
 
         <div class="right-panel">
             <div>
-                <h1>Inicia sesión en tu cuenta</h1>
+                <h1>Crea tu cuenta</h1>
 
                 <form>
                     <div class="input-group">
-                        <label for="username" class="input-label">Usuario</label>
-                        <input type="text" id="username" class="input-field" placeholder="Ingrese su usuario" required>
+                        <label for="reg-username" class="input-label">Usuario</label>
+                        <input type="text" id="reg-username" class="input-field" placeholder="Crea un nombre de usuario" required>
                     </div>
 
                     <div class="input-group">
-                        <label for="password" class="input-label">Contraseña</label>
-                        <input type="password" id="password" class="input-field" placeholder="••••••••" required>
+                        <label for="reg-email" class="input-label">Correo Electrónico</label>
+                        <input type="email" id="reg-email" class="input-field" placeholder="ejemplo@correo.com" required>
                     </div>
 
-                    <div class="forgot-password">
-                        <a href="#" class="forgot-link">Restablece tu contraseña</a>
+                    <div class="input-group">
+                        <label for="reg-password" class="input-label">Contraseña</label>
+                        <input type="password" id="reg-password" class="input-field" placeholder="Mínimo 8 caracteres" required>
                     </div>
 
-                    <button type="submit" class="login-button">Inicie Sesión</button>
+                    <div class="input-group mb-6">
+                        <label for="confirm-password" class="input-label">Confirmar Contraseña</label>
+                        <input type="password" id="confirm-password" class="input-field" placeholder="Repite tu contraseña" required>
+                    </div>
+
+                    <button type="submit" class="login-button">Registrarse</button>
                     
-                    <!-- Enlace de redirección directa con clases de maquetación integradas -->
-                    <a href="registrarse.html" class="login-button login-button-alt block text-center no-underline">Registrarse</a>
+                    <a href="login.html" class="login-button-alt">¿Ya tienes cuenta? Inicia Sesión</a>
                 </form>
             </div>
         </div>

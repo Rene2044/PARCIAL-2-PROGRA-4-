@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyCast | Historial de Búsquedas</title>
+    
+    <link class="flex" rel="icon" type="image/png" href="assets/Cap.png">
+
+    <!-- Tailwind CSS y Fuentes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;600&family=Poppins:wght=300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Estilos Externos -->
+    <link rel="stylesheet" href="js/Estilos.css">
+
+    <style>
+        /* Estilos Globales para consistencia de marca */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Fondo unificado con el ecosistema SkyCast */
+        .weather-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
+        }
+
+        /* Personalización de barra de desplazamiento para las tablas en móviles */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="weather-bg flex flex-col items-center min-h-screen p-0 m-0 w-full overflow-x-hidden font-['Inter'] text-white">
+
+    <!-- Navbar Dinámica -->
+    <header id="navbar-app" class="w-full"></header>
+
+    <!-- Contenedor Principal -->
+    <div class="flex flex-col items-center justify-center gap-8 w-full max-w-5xl mx-auto mt-32 px-6 flex-grow mb-12">
+        
+        <!-- Tarjeta del Historial con Glassmorphism -->
+        <main class="w-full bg-white/15 backdrop-blur-xl rounded-[32px] shadow-2xl p-8 border border-white/25 transition-all duration-500">
+            
+            <!-- Encabezado de la Sección -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 border-b border-white/10 pb-6">
+                <div>
+                    <h1 class="text-3xl font-bold tracking-tight text-white mb-1">Historial de Consultas</h1>
+                    <p class="text-sm opacity-70">Revisa las últimas ciudades que has buscado</p>
+                </div>
+                <!-- Botón para limpiar historial con el color de acento naranja -->
+                <button id="clear-history-btn" class="self-start sm:self-auto px-5 py-2.5 bg-[#ff643c] hover:bg-[#ff4c24] text-white text-sm font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-[1.02] active:scale-95 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Limpiar Historial
+                </button>
+            </div>
+
+            <!-- Tabla responsiva dentro de contenedor esmerilado secundario -->
+            <div class="overflow-x-auto custom-scrollbar bg-black/15 backdrop-blur-md rounded-2xl border border-white/5">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-white/10 bg-white/5 text-[11px] uppercase tracking-widest opacity-75">
+                            <th class="py-4 px-6 font-semibold">Ciudad</th>
+                            <th class="py-4 px-6 font-semibold">Fecha y Hora</th>
+                            <th class="py-4 px-6 font-semibold text-center">Clima</th>
+                            <th class="py-4 px-6 font-semibold text-center">Temp.</th>
+                            <th class="py-4 px-6 font-semibold text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-table-body" class="divide-y divide-white/5 text-sm">
+                        <!-- Ejemplo de Fila Activa (Esto lo renderizarás dinámicamente con tu JS) -->
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="py-4 px-6 font-medium tracking-wide">Madrid, ES</td>
+                            <td class="py-4 px-6 opacity-80 text-xs">01 Jun 2026 - 15:30</td>
+                            <td class="py-4 px-6">
+                                <div class="flex items-center justify-center gap-2">
+                                    <img src="https://openweathermap.org/img/wn/01d.png" alt="Icono" class="w-8 h-8 drop-shadow">
+                                    <span class="capitalize text-xs">Despejado</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-center font-semibold text-sky-300">24°C</td>
+                            <td class="py-4 px-6 text-center">
+                                <button class="p-2 hover:bg-sky-400/20 text-sky-300 rounded-lg transition-colors hover:scale-110" title="Volver a consultar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Ejemplo Fila 2 -->
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="py-4 px-6 font-medium tracking-wide">Bogotá, CO</td>
+                            <td class="py-4 px-6 opacity-80 text-xs">01 Jun 2026 - 11:15</td>
+                            <td class="py-4 px-6">
+                                <div class="flex items-center justify-center gap-2">
+                                    <img src="https://openweathermap.org/img/wn/09d.png" alt="Icono" class="w-8 h-8 drop-shadow">
+                                    <span class="capitalize text-xs">Lluvia ligera</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-center font-semibold text-sky-300">14°C</td>
+                            <td class="py-4 px-6 text-center">
+                                <button class="p-2 hover:bg-sky-400/20 text-sky-300 rounded-lg transition-colors hover:scale-110" title="Volver a consultar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Estado Vacío (Oculto por defecto, útil para cuando no haya historial) -->
+                <div id="empty-history-state" class="hidden flex-col items-center justify-center p-12 text-center opacity-60">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p class="text-lg font-medium">No hay búsquedas recientes</p>
+                    <p class="text-xs mt-1">Las ciudades que busques en el inicio aparecerán aquí.</p>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer-app" class="w-full"></footer>
+
+    <!-- Scripts Modulares -->
+    <script type="module" src="js/Navbar.js"></script>
+    <script type="module" src="js/Footer.js"></script>
+    <!-- Aquí puedes enlazar un script exclusivo para controlar el historial si lo deseas -->
+    <script type="module" src="js/history.js"></script>
+
+</body>
+</html>
